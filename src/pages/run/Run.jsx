@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InputFita from '../../components/input/InputFita';
 
 
 function Run(props) {
@@ -43,7 +44,7 @@ function Run(props) {
         <div>
             <div>
                 {fitaFinal.map(fita, key => {
-                    // <InputFita key value={fita} enabled={index == key ? true : false} />
+                    //<InputFita key value={fita} enabled={index == key ? true : false} />
                 })}
             </div>
             <div>

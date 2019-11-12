@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InputSetup from '../../components/setup/InputSetup';
 
 function Setup() {
     const [estados, setEstados] = useState();
@@ -31,6 +32,10 @@ function Setup() {
         setEstados(palavra);
     }
 
+    function handleAdd() {
+        
+    }
+
     // handleEntrada = event => {
     //     var split = event.split('');
     //     setEstados(split.map(entrada => entrada));
@@ -41,7 +46,7 @@ function Setup() {
             <form>
                 <div className='form-control'>
                     <label htmlFor="estados">Q</label>
-                    <input type="text" className='form-input' id="estados" value={estados} onChange={e => handleEstados(e.target.value)} placeholder="q0,q1,q2" />
+                    <InputSetup value={estados} onChange={e=> handleEstados(e.target.value)} placeholder="q0,q1,q2" />
                 </div>
                 <div className='form-control'>
                     <label htmlFor="entrada">&Sigma;</label>
@@ -63,9 +68,9 @@ function Setup() {
                     <label htmlFor="finais">F</label>
                     <input type="text" className='form-input' id="finais" value={finais} onChange={e => setFinal(e.target.value)} placeholder="q3,q4" />
                 </div>
-                <div>
+                <div id="div-add">
                     <label htmlFor="transicao">&delta;</label>
-                    <button className="">Adicionar</button>
+                    <button className="" id="btn-add" onClick={() => handleAdd()}>Adicionar</button>
                 </div>
                 <div>
                     <button className="">Rodar</button>
