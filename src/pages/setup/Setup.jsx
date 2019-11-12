@@ -21,11 +21,8 @@ function Setup() {
     function handleEstados(event){
         var palavra = event;
         
-        if(palavra.lenght > 2 && palavra.lenght % 2 == 0){
-            var split = event.split(',').toLowerCase();
-            for(var i; i < split.lenght/2; i++ ){
-                split = split.replace(/(\d{2})(\d{2})/,"$1,$2");
-            }
+        if(palavra.lenght > 2 && palavra.lenght % 2 === 0){
+            palavra += ',';
         }
         
         setEstados(palavra);
@@ -47,8 +44,6 @@ function Setup() {
     function getTransicao(transicao) {
         return `(${transicao.estado}, ${transicao.valor}) = (${transicao.transicao.estado}, ${transicao.transicao.valor}, ${transicao.transicao.movimento})`;
     }
-    
-    
 
     // handleEntrada = event => {
     //     var split = event.split('');
