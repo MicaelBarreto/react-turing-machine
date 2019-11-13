@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import InputSetup from '../../components/setup/InputSetup';
+import Modal from './modal/Modal';
 
 function Setup() {
     const [estados, setEstados] = useState();
     const [entrada, setEntrada] = useState();
     const [fita, setFita] = useState();
     const [transicoes, setTransicoes] = useState([]);
-    const [countTransicao, setCountTransicao] = useState(1);
+    const [transicao, setTransicao] = useState({});
+    const [countTransicao, setCountTransicao] = useState(0);
     const [inicial, setInicial] = useState();
     const [branco, setBranco] = useState();
     const [finais, setFinal] = useState();
+    const [showModal, setModal] = useState(false);
 
     useEffect(() => {
         var estados = document.getElementById('estados');
@@ -29,20 +32,22 @@ function Setup() {
     }
 
     function handleAdd() {
-        var transicoes = Object.values({...transicoes});
-        console.log(transicoes);
-        console.log(typeof transicoes);
-        transicoes.push({'estado': '', 'valor': '', 'transicao': {'estado': '', 'transicao': '', 'movimento': ''}});
+        transicoes[countTransicao+1] = {'estado': '', 'valor': '', 'transicao': {'estado': '', 'transicao': '', 'movimento': ''}};
 
         setTransicoes(transicoes);
+        setCountTransicao(countTransicao+1);
     }
 
-    function handleTransicao() {
-
+    function handleTransicao(event) {
+        console.log(event);
     }
 
     function getTransicao(transicao) {
         return `(${transicao.estado}, ${transicao.valor}) = (${transicao.transicao.estado}, ${transicao.transicao.valor}, ${transicao.transicao.movimento})`;
+    }
+
+    function handleSetTransiction(values) {
+
     }
 
     // handleEntrada = event => {
@@ -52,6 +57,7 @@ function Setup() {
 
     return(
         <div>
+            <Modal transicao={trasicao} onSubmit={values => handleSetTransiction(values)} />
             <form>
                 <div className='form-control'>
                     <label htmlFor="estados">Q</label>
@@ -79,8 +85,9 @@ function Setup() {
                 </div>
                 <div id="div-add">
                     <label htmlFor="transicao">&delta;</label>
-                    {transicoes.map(transicao => (
-                        <InputSetup value={() => getTransicao(transicao)} onChange={e => handleTransicao(e.target.value)} placeholder="q3,q4" />
+                    {console.log(transicoes)}
+                    {Object.values(transicoes).map((transicao, key) => (
+                        <InputSetup value={() => getTransicao(transicao)} onChange={e => handleTransicao(e.target)} placeholder="q3,q4" />
                     ))}
                     <button type="button" className="" id="btn-add" onClick={() => handleAdd()}>Adicionar</button>
                 </div>

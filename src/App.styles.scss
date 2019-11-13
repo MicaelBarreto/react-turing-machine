@@ -2,4 +2,12 @@
     height: 100%;
     width: 100%;
     text-align: center;
+
+    input, select {
+        border: 1px;
+         &:focus {
+             border-color: aqua;
+             color: aqua;
+         }
+    }
 }
