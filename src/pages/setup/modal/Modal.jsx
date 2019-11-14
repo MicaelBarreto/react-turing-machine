@@ -1,6 +1,8 @@
 import React from 'react';
 import './Modal.styles.scss';
 
+import InputSetup from '../../../components/setup/InputSetup';
+
 const Modal = ({ transicao, showModal, onSubmit }) => (
     <div className={"modal" + (showModal ? " display-block" : " display-none")}>
         <div className="modal-main">

@@ -7,7 +7,7 @@ function Setup() {
     const [entrada, setEntrada] = useState();
     const [fita, setFita] = useState();
     const [transicoes, setTransicoes] = useState([]);
-    const [transicao, setTransicao] = useState({});
+    const [transicao, setTransicao] = useState({'estado': '', 'valor': '', 'transicao': {'estado': '', 'transicao': '', 'movimento': ''}});
     const [countTransicao, setCountTransicao] = useState(0);
     const [inicial, setInicial] = useState();
     const [branco, setBranco] = useState();
@@ -36,6 +36,7 @@ function Setup() {
 
         setTransicoes(transicoes);
         setCountTransicao(countTransicao+1);
+        setModal(true);
     }
 
     function handleTransicao(event) {
@@ -57,7 +58,7 @@ function Setup() {
 
     return(
         <div>
-            <Modal transicao={trasicao} onSubmit={values => handleSetTransiction(values)} />
+            <Modal showModal={showModal} transicao={transicao} onSubmit={values => handleSetTransiction(values)} />
             <form>
                 <div className='form-control'>
                     <label htmlFor="estados">Q</label>
