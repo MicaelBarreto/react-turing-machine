@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import InputSetup from '../../components/setup/InputSetup';
-import Modal from './modal/Modal';
+import Modal from '../../components/modal/Modal';
 
 function Setup() {
     const [estados, setEstados] = useState();
@@ -32,11 +32,18 @@ function Setup() {
     }
 
     function handleAdd() {
-        transicoes[countTransicao+1] = {'estado': '', 'valor': '', 'transicao': {'estado': '', 'transicao': '', 'movimento': ''}};
+        if (!showModal){
+            transicoes[countTransicao+1] = {'estado': '', 'valor': '', 'transicao': {'estado': '', 'transicao': '', 'movimento': ''}};
 
-        setTransicoes(transicoes);
-        setCountTransicao(countTransicao+1);
-        setModal(true);
+            setTransicoes(transicoes);
+            setCountTransicao(countTransicao+1);
+            setModal(true);
+        } else {
+            transicoes.pop();
+            setTransicoes(transicoes);
+            setCountTransicao(countTransicao-1);
+            setModal(false);
+        }
     }
 
     function handleTransicao(event) {
@@ -58,7 +65,7 @@ function Setup() {
 
     return(
         <div>
-            <Modal showModal={showModal} transicao={transicao} onSubmit={values => handleSetTransiction(values)} />
+            <Modal showModal={showModal} transicao={transicao} onSubmit={values => handleSetTransiction(values)} onClose={() => handleAdd()} />
             <form>
                 <div className='form-control'>
                     <label htmlFor="estados">Q</label>

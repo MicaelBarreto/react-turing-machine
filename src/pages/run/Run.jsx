@@ -21,34 +21,52 @@ function Run(props) {
     }, [])
 
     function run() {
-
+        while(1) {
+            transicoes.map((transicao, key) => {
+                if(transicao.estado == estadoAtual && transicao.valor == fita) {
+                    step(transicao);
+                }
+            });
+        }
     }
 
-    function step() {
+    function step(transicao) {
+        if(transicao.transicao.movimento == 'R') {
+            moveRight();
+        } else if(transicao.transicao.movimento == 'L') {
+            moveLeft();
+        }
 
+        setFita();
+        setEstadoAtual();
+        addLog();
     }
 
     function moveRight() {
-
+        setIndex(index+1);
     }
 
     function moveLeft() {
-
+        setIndex(index-1);
     }
 
-    function handleLog(event) {
+    function addLog(event) {
         log.unshift();
+    }
+
+    function handleLog() {
+        return log.map(l => l+'\n');
     }
 
     return (
         <div>
             <div>
                 {fitaFinal.map(fita, key => {
-                    //<InputFita key value={fita} enabled={index == key ? true : false} />
+                    //<InputFita key={key} value={fita} enabled={() => {index == key ? true : false}} />
                 })}
             </div>
             <div>
-                <textarea id="log" cols="30" rows="10" value={log.map(l => l)} readOnly></textarea>
+                <textarea id="log" cols="30" rows="10" value={handleLog()} readOnly></textarea>
             </div>
         </div>
     )
