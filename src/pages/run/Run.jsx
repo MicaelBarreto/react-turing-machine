@@ -1,45 +1,64 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect, withRouter } from 'react-router-dom';
+
 import InputFita from '../../components/input/InputFita';
 
 
 function Run(props) {
-    const [estados, setEstados] = useState(props.estados);
-    const [entrada, setEntrada] = useState(props.entrada);
-    const [fita, setFita] = useState(props.fita);
-    const [transicoes, setTransicoes] = useState(props.transicoes);
-    const [transicao, setTransicao] = useState(props.transicao);
-    const [inicial, setInicial] = useState(props.inicial);
-    const [branco, setBranco] = useState(props.branco);
-    const [finais, setFinal] = useState(props.finais);
-    const [estadoAtual, setEstadoAtual] = useState('');
+    const { fita, estados, entrada, inicial, branco, finais, transicoes } = props;
+
+    const [estadoAtual, setEstadoAtual] = useState(inicial);
     const [index, setIndex] = useState(0);
-    const [fitaFinal, setFitaFinal] = useState(props.fita);
+    const [fitaFinal, setFitaFinal] = useState(fita);
     const [log, setLog] = useState([]);
+
 
     useEffect(() => {
         run();
     }, [])
 
     function run() {
+
+        var flag;
+        var flagEstado;
+
         while(1) {
-            transicoes.map((transicao, key) => {
-                if(transicao.estado == estadoAtual && transicao.valor == fita) {
+            flag = transicoes.map(transicao => {
+                if(transicao.estado == estadoAtual && transicao.valor == fitaFinal[index]) {
                     step(transicao);
+                    return true;
                 }
             });
+
+            flagEstado = finais.find(element => element == estadoAtual);
+
+            if(!flag && !flagEstado) {
+                alert('Erro: Não existem mais movimentações possiveis');
+                <Redirect to='/' />
+            }
+
+            if(!flag && flagEstado) {
+                <Redirect to='/log' />
+            }
         }
     }
 
     function step(transicao) {
+        fitaFinal[index] = transicao.transicao.valor;
+
+        setFitaFinal(fitaFinal);
+        setEstadoAtual(transicao.transicao.estado);
+
         if(transicao.transicao.movimento == 'R') {
             moveRight();
         } else if(transicao.transicao.movimento == 'L') {
             moveLeft();
+        } else {
+            alert('Erro: Transição inválida');
+            <Redirect to='/' />
         }
-
-        setFita();
-        setEstadoAtual();
-        addLog();
+        
+        addLog(transicao);
     }
 
     function moveRight() {
@@ -51,26 +70,33 @@ function Run(props) {
     }
 
     function addLog(event) {
-        log.unshift();
-    }
+        log = 'Estando no estado '+event.estado
+        +' e lendo '+event.valor+': '
+        +(event.estado == event.trasicao.estado ? 'permaneça no estado ' : 'vá para o estado ')+event.trasicao.estado+', '
+        +'altere o valor para '+event.trasicao.trasicao+' e '
+        +'vá para a '+(transicao.transicao.movimento == 'R' ? 'direita' : 'esquerda')
+        +'\n'+log;
 
-    function handleLog() {
-        return log.map(l => l+'\n');
+        setLog(log);
     }
 
     return (
         <div>
             <div>
-                {fitaFinal.map(fita, key => {
-                    //<InputFita key={key} value={fita} enabled={() => {index == key ? true : false}} />
+                {fitaFinal.map(f, key => {
+                    if(index == key){
+                        <InputFita key={key} value={f} enabled />
+                    } else {
+                        <InputFita key={key} value={f} />
+                    }
                 })}
             </div>
             <div>
-                <textarea id="log" cols="30" rows="10" value={handleLog()} readOnly></textarea>
+                <textarea id="log" cols="30" rows="10" value={log} readOnly></textarea>
             </div>
         </div>
     )
 }
 
-export default Run;
+export default withRouter(Run);
 
