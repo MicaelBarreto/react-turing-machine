@@ -81,18 +81,20 @@ function Run(props) {
     }
 
     return (
-        <div>
-            <div>
-                {fitaFinal.map(f, key => {
-                    if(index == key){
-                        <InputFita key={key} value={f} enabled />
-                    } else {
-                        <InputFita key={key} value={f} />
-                    }
-                })}
-            </div>
-            <div>
-                <textarea id="log" cols="30" rows="10" value={log} readOnly></textarea>
+        <div className='run'>
+            <div className='run-body'>
+                <div className='fita'>
+                    {fitaFinal.map(f, key => {
+                        if(index == key){
+                            <InputFita key={key} value={f} enabled />
+                        } else {
+                            <InputFita key={key} value={f} />
+                        }
+                    })}
+                </div>            
+                <div className='log'>
+                    <textarea id="log" cols="30" rows="10" value={log} readOnly></textarea>
+                </div>
             </div>
         </div>
     )

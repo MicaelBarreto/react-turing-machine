@@ -1,0 +1,26 @@
+.run {
+    .run-body {
+        .log {
+
+        }
+
+        .fita {
+
+        }
+    }
+
+    .run-footer {
+        width: 100%;
+
+        a {
+            float: right;
+            color: white;
+            text-decoration: none;
+
+            &:hover {
+                background-color: white;
+                color: black;
+            }
+        }
+    }
+}
