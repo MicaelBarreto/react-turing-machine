@@ -5,7 +5,8 @@ import InputFita from '../../components/input/InputFita';
 
 
 function Run(props) {
-    const { fita, estados, entrada, inicial, branco, finais, transicoes } = props;
+
+    const { fita, estados, entrada, inicial, branco, finais, transicoes } = props.location.state;
 
     const [estadoAtual, setEstadoAtual] = useState(inicial);
     const [index, setIndex] = useState(0);
@@ -38,7 +39,14 @@ function Run(props) {
             }
 
             if(!flag && flagEstado) {
-                <Redirect to='/log' />
+                <Redirect to={{
+                    pathname: '/log',
+                    state: {
+                        fita,
+                        fitaFinal,
+                        log
+                    }
+                }} />
             }
         }
     }

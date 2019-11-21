@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import InputSetup from '../../components/setup/InputSetup';
 import Modal from '../../components/modal/Modal';
 
@@ -13,23 +13,6 @@ function Setup() {
     const [branco, setBranco] = useState();
     const [finais, setFinal] = useState();
     const [showModal, setModal] = useState(false);
-
-    useEffect(() => {
-        var estados = document.getElementById('estados');
-        var finais = document.getElementById('estados');
-
-        
-    }, [])
-
-    function handleEstados(event){
-        var palavra = event;
-        
-        if(palavra.lenght > 2 && palavra.lenght % 2 === 0){
-            palavra += ',';
-        }
-        
-        setEstados(palavra);
-    }
 
     function handleAdd() {
         if (!showModal){
@@ -58,10 +41,28 @@ function Setup() {
 
     }
 
-    // handleEntrada = event => {
-    //     var split = event.split('');
-    //     setEstados(split.map(entrada => entrada));
-    // }
+    function handleRun() {
+        finais = finais.split(',');
+        estados = estados.split(',');
+        entrada = entrada.split(',');
+        fita = fita.split(',');
+
+        <Redirect 
+            to={{
+                pathname: '/run',
+                state: { 
+                    fita,
+                    estados,
+                    entrada, 
+                    inicial, 
+                    branco, 
+                    finais, 
+                    transicoes
+                    
+                }
+            }}
+        />
+    }
 
     return(
         <div>
@@ -69,7 +70,7 @@ function Setup() {
             <form>
                 <div className='form-control'>
                     <label htmlFor="estados">Q</label>
-                    <InputSetup value={estados} onChange={e=> handleEstados(e.target.value)} placeholder="q0,q1,q2" />
+                    <InputSetup value={estados} onChange={e=> setEstados(e.target.value)} placeholder="q0,q1,q2" />
                 </div>
                 <div className='form-control'>
                     <label htmlFor="entrada">&Sigma;</label>                    
@@ -100,7 +101,7 @@ function Setup() {
                     <button type="button" className="" id="btn-add" onClick={() => handleAdd()}>Adicionar</button>
                 </div>
                 <div>
-                    <button className="">Rodar</button>
+                    <button className="" onClick={() => handleRun()}  >Rodar</button>
                 </div>
             </form>
         </div>
