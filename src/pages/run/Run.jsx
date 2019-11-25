@@ -13,42 +13,41 @@ function Run(props) {
     const [fitaFinal, setFitaFinal] = useState(fita);
     const [log, setLog] = useState([]);
 
-
-    useEffect(() => {
-        run();
-    }, [])
-
     function run() {
-
+        console.log('entrou')
         var flag;
         var flagEstado;
+        
+        flag = transicoes.map(transicao => {
+            if(transicao.estado == estadoAtual && transicao.valor == fitaFinal[index]) {
+                step(transicao);
+                return true;
+            }
+        });
 
-        while(1) {
-            flag = transicoes.map(transicao => {
-                if(transicao.estado == estadoAtual && transicao.valor == fitaFinal[index]) {
-                    step(transicao);
-                    return true;
+        alert(flag)
+
+        flagEstado = finais.find(element => element == estadoAtual);
+
+        alert(flagEstado)
+
+        if(!flag && !flagEstado) {
+            alert('Erro: Não existem mais movimentações possiveis');
+            props.history.push('/');
+        }
+
+        if(!flag && flagEstado) {
+            props.history.push({
+                pathname: '/log',
+                state: {
+                    fita,
+                    fitaFinal,
+                    log
                 }
             });
-
-            flagEstado = finais.find(element => element == estadoAtual);
-
-            if(!flag && !flagEstado) {
-                alert('Erro: Não existem mais movimentações possiveis');
-                <Redirect to='/' />
-            }
-
-            if(!flag && flagEstado) {
-                <Redirect to={{
-                    pathname: '/log',
-                    state: {
-                        fita,
-                        fitaFinal,
-                        log
-                    }
-                }} />
-            }
         }
+
+        run();
     }
 
     function step(transicao) {
@@ -63,7 +62,7 @@ function Run(props) {
             moveLeft();
         } else {
             alert('Erro: Transição inválida');
-            <Redirect to='/' />
+            return <Redirect to='/' />
         }
         
         addLog(transicao);
@@ -82,7 +81,7 @@ function Run(props) {
         +' e lendo '+event.valor+': '
         +(event.estado == event.trasicao.estado ? 'permaneça no estado ' : 'vá para o estado ')+event.trasicao.estado+', '
         +'altere o valor para '+event.trasicao.trasicao+' e '
-        +'vá para a '+(transicao.transicao.movimento == 'R' ? 'direita' : 'esquerda')
+        +'vá para a '+(event.transicao.movimento == 'R' ? 'direita' : 'esquerda')
         +'\n'+log;
 
         setLog(log);
@@ -92,17 +91,20 @@ function Run(props) {
         <div className='run'>
             <div className='run-body'>
                 <div className='fita'>
-                    {fitaFinal.map(f, key => {
+                    {fitaFinal.map((f, key) => {
                         if(index == key){
-                            <InputFita key={key} value={f} enabled />
+                            return <InputFita key={key} value={f} enabled />
                         } else {
-                            <InputFita key={key} value={f} />
+                            return <InputFita key={key} value={f} />
                         }
                     })}
                 </div>            
                 <div className='log'>
                     <textarea id="log" cols="30" rows="10" value={log} readOnly></textarea>
                 </div>
+            </div>
+            <div className='run-footer'>
+                    <button className='run-button' onClick={() => run()}>Rodar</button>
             </div>
         </div>
     )
