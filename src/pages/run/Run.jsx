@@ -12,14 +12,14 @@ function Run(props) {
     const [index, setIndex] = useState(0);
     const [fitaFinal, setFitaFinal] = useState(fita);
     const [log, setLog] = useState('');
-    //const [logs, setLogs] = useState([]);
+    const [logs, setLogs] = useState([]);
 
     useEffect(() => {
         var flag;
         var flagEstado;
 
         setTimeout(() => {
-            flag = transicoes.map(async transicao => {
+            flag = transicoes.map(transicao => {
                 if(transicao.estado == estadoAtual && transicao.valor == fitaFinal[index]) {
                     step(transicao);
                     return true;
@@ -45,6 +45,7 @@ function Run(props) {
             }
             
             if(fitaFinal.length === index) {
+                
                 props.history.push({
                     pathname: '/log',
                     state: {
@@ -58,9 +59,9 @@ function Run(props) {
     });
 
     function step(transicao) {
-        setTimeout(addLog(transicao), 1000);
+        addLog(transicao);
         
-        fitaFinal[index] = transicao.transicao.valor;
+        fitaFinal[index] = transicao.transicao.transicao;
 
         setFitaFinal(fitaFinal);
         setEstadoAtual(transicao.transicao.estado);
@@ -85,13 +86,13 @@ function Run(props) {
     }
 
     function addLog(event) {        
-        var log = `Estando no estado ${event.estado} e lendo 
-        ${event.valor}: ${event.estado == event.transicao.estado ? 'permaneça no estado ' : 'vá para o estado '} 
-        ${event.transicao.estado}, altere o valor para ${event.transicao.transicao} e 
-        vá para a ${event.transicao.movimento == 'R' ? 'direita' : 'esquerda'} \n`;
+        var log = `Estando no estado ${event.estado} e lendo ${event.valor}: ${event.estado == event.transicao.estado ? 'permaneça no estado ' : 'vá para o estado '}${event.transicao.estado}, altere o valor para ${event.transicao.transicao} e vá para a ${event.transicao.movimento == 'R' ? 'direita' : 'esquerda'}`;
         
         setLog(log);
-        //setLogs(logs.push(log));
+        //console.log(typeof log)
+        //console.log(logs);
+        //console.log(typeof logs)
+        //setLogs(logs.unshift(log));
     }
 
     return (
