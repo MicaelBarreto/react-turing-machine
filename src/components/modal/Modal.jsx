@@ -1,35 +1,60 @@
 import React from 'react';
 import './Modal.styles.scss';
 
-import InputSetup from '../setup/InputSetup';
-
-const Modal = ({ transicao, showModal, onSubmit, onClose }) => (
+const Modal = ({ transicao, showModal, onSubmit, onClose, estados, entradas }) => (
     <div className={"modal" + (showModal ? " display-block" : " display-none")}>
         <div className="modal-main">
             <div className="modal-head">
                 <h2>Adicione as informações da transição</h2>
-                <button onClick={() => onClose()}>Sair</button>
+                <button onClick={() => {
+                    document.getElementById('estado').value = "";
+                    document.getElementById('entrada').value = "";
+                    document.getElementById('trans-estado').value = "";
+                    document.getElementById('trans-entrada').value = "";
+                    document.getElementById('trans-movimento').value = "";
+                    onClose();
+                }}>Sair</button>
             </div>
             <div className="modal-body">
                 (<div className='input-informações'>
                     <label>Estado</label>
-                    <InputSetup key='estado' placeholder="q0" onChange={e => transicao.estado = e.target.value} />
+                    <select id='estado' onChange={e => transicao.estado = e.target.value} >
+                        <option value="">--- Selecione o estado ---</option>
+                        {estados.map(estado => (
+                            <option value={estado}>{estado}</option>
+                        ))}
+                    </select>
                 </div>,
                 <div className='input-informações'>
                     <label>Valor</label>
-                    <InputSetup key='valor' placeholder="1" onChange={e => transicao.valor = e.target.value} />
+                    <select id='entrada' onChange={e => transicao.valor = e.target.value} >
+                        <option value="">--- Selecione a entrada ---</option>
+                        {entradas.map(entrada => (
+                            <option value={entrada}>{entrada}</option>
+                        ))}
+                    </select>
                 </div>) = 
                 (<div className='input-informações'>
                     <label>Estado</label>
-                    <InputSetup key='transicao-estado' placeholder="q1" onChange={e => transicao.transicao.estado = e.target.value} />
+                    <select id='trans-estado' onChange={e => transicao.transicao.estado = e.target.value} >
+                        <option value="">--- Selecione o estado ---</option>
+                        {estados.map(estado => (
+                            <option value={estado}>{estado}</option>
+                        ))}
+                    </select>
                 </div>,
                 <div className='input-informações'>
                     <label>Transição</label>
-                    <InputSetup key='transicao' placeholder="0" onChange={e => transicao.transicao.transicao = e.target.value} />
+                    <select id='trans-entrada' onChange={e => transicao.transicao.transicao = e.target.value} >
+                        <option value="">--- Selecione a entrada ---</option>
+                        {entradas.map(entrada => (
+                            <option value={entrada}>{entrada}</option>
+                        ))}
+                    </select>
                 </div>,
                 <div className='input-informações'>
                     <label>Movimento</label>
-                    <select id='movimento'onChange={e => transicao.transicao.movimento = e.target.value} >
+                    <select id='trans-movimento' onChange={e => transicao.transicao.movimento = e.target.value} >
                         <option value="">--- Selecione a direção do movimento ---</option>
                         <option value="R">Direita</option>
                         <option value="L">Esquerda</option>
@@ -37,7 +62,14 @@ const Modal = ({ transicao, showModal, onSubmit, onClose }) => (
                 </div>)
             </div>
             <div className="modal-footer">
-                <button type="button" onClick={() => onSubmit(transicao)}>Adicionar</button>
+                <button type="button" onClick={() => {
+                    document.getElementById('estado').value = "";
+                    document.getElementById('entrada').value = "";
+                    document.getElementById('trans-estado').value = "";
+                    document.getElementById('trans-entrada').value = "";
+                    document.getElementById('trans-movimento').value = "";
+                    onSubmit(transicao)
+                }}>Adicionar</button>
             </div>
         </div>
     </div>

@@ -5,8 +5,8 @@ import InputSetup from '../../components/setup/InputSetup';
 import Modal from '../../components/modal/Modal';
 
 function Setup(props) {
-    const [estados, setEstados] = useState();
-    const [entrada, setEntrada] = useState();
+    const [estados, setEstados] = useState('');
+    const [entrada, setEntrada] = useState('');
     const [fita, setFita] = useState();
     const [transicoes, setTransicoes] = useState([]);    
     const [countTransicao, setCountTransicao] = useState(0);
@@ -42,7 +42,7 @@ function Setup(props) {
         finais = finais.split(',');
         estados = estados.split(',');
         entrada = entrada.split(',');
-        fita = fita.split(',');
+        fita = fita.split('');
 
         props.history.push({
             pathname: '/run',
@@ -60,7 +60,14 @@ function Setup(props) {
 
     return(
         <div>
-            <Modal showModal={showModal} transicao={transicao} onSubmit={values => handleSetTransiction(values)} onClose={() => handleAdd()} />
+            <Modal 
+                showModal={showModal} 
+                transicao={transicao} 
+                onSubmit={values => handleSetTransiction(values)} 
+                onClose={() => handleAdd()} 
+                estados={estados.split(',')} 
+                entradas={entrada.split(',')} 
+            />
             <form onSubmit={event => event.preventDefault()}>
                 <div className='form-control'>
                     <label htmlFor="estados">Q</label>

@@ -11,46 +11,55 @@ function Run(props) {
     const [estadoAtual, setEstadoAtual] = useState(inicial);
     const [index, setIndex] = useState(0);
     const [fitaFinal, setFitaFinal] = useState(fita);
-    const [log, setLog] = useState([]);
+    const [log, setLog] = useState('');
+    //const [logs, setLogs] = useState([]);
 
-    function run() {
-        console.log('entrou')
+    useEffect(() => {
         var flag;
         var flagEstado;
-        
-        flag = transicoes.map(transicao => {
-            if(transicao.estado == estadoAtual && transicao.valor == fitaFinal[index]) {
-                step(transicao);
-                return true;
-            }
-        });
 
-        alert(flag)
-
-        flagEstado = finais.find(element => element == estadoAtual);
-
-        alert(flagEstado)
-
-        if(!flag && !flagEstado) {
-            alert('Erro: Não existem mais movimentações possiveis');
-            props.history.push('/');
-        }
-
-        if(!flag && flagEstado) {
-            props.history.push({
-                pathname: '/log',
-                state: {
-                    fita,
-                    fitaFinal,
-                    log
+        setTimeout(() => {
+            flag = transicoes.map(async transicao => {
+                if(transicao.estado == estadoAtual && transicao.valor == fitaFinal[index]) {
+                    step(transicao);
+                    return true;
                 }
             });
-        }
+            
+            flagEstado = finais.filter(element => element == estadoAtual);
 
-        run();
-    }
+            if(!flag && !flagEstado) {
+                alert('Erro: Não existem mais movimentações possiveis');
+                props.history.push('/');
+            }
+            
+            if(!flag && flagEstado) {
+                props.history.push({
+                    pathname: '/log',
+                    state: {
+                        fita,
+                        fitaFinal,
+                        log
+                    }
+                });
+            }
+            
+            if(fitaFinal.length === index) {
+                props.history.push({
+                    pathname: '/log',
+                    state: {
+                        fita,
+                        fitaFinal,
+                        log
+                    }
+                });
+            }
+        }, 2000);
+    });
 
     function step(transicao) {
+        setTimeout(addLog(transicao), 1000);
+        
         fitaFinal[index] = transicao.transicao.valor;
 
         setFitaFinal(fitaFinal);
@@ -62,10 +71,9 @@ function Run(props) {
             moveLeft();
         } else {
             alert('Erro: Transição inválida');
-            return <Redirect to='/' />
-        }
+            props.history.push('/');
+        }       
         
-        addLog(transicao);
     }
 
     function moveRight() {
@@ -76,15 +84,14 @@ function Run(props) {
         setIndex(index-1);
     }
 
-    function addLog(event) {
-        log = 'Estando no estado '+event.estado
-        +' e lendo '+event.valor+': '
-        +(event.estado == event.trasicao.estado ? 'permaneça no estado ' : 'vá para o estado ')+event.trasicao.estado+', '
-        +'altere o valor para '+event.trasicao.trasicao+' e '
-        +'vá para a '+(event.transicao.movimento == 'R' ? 'direita' : 'esquerda')
-        +'\n'+log;
-
+    function addLog(event) {        
+        var log = `Estando no estado ${event.estado} e lendo 
+        ${event.valor}: ${event.estado == event.transicao.estado ? 'permaneça no estado ' : 'vá para o estado '} 
+        ${event.transicao.estado}, altere o valor para ${event.transicao.transicao} e 
+        vá para a ${event.transicao.movimento == 'R' ? 'direita' : 'esquerda'} \n`;
+        
         setLog(log);
+        //setLogs(logs.push(log));
     }
 
     return (
@@ -102,9 +109,6 @@ function Run(props) {
                 <div className='log'>
                     <textarea id="log" cols="30" rows="10" value={log} readOnly></textarea>
                 </div>
-            </div>
-            <div className='run-footer'>
-                    <button className='run-button' onClick={() => run()}>Rodar</button>
             </div>
         </div>
     )
