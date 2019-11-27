@@ -26,7 +26,8 @@ function Run(props) {
                 }
             });
             
-            flagEstado = finais.filter(element => element == estadoAtual);
+            flagEstado = finais.find(element => element == estadoAtual);
+            console.log(flagEstado);
 
             if(!flag && !flagEstado) {
                 alert('Erro: Não existem mais movimentações possiveis');
@@ -44,8 +45,17 @@ function Run(props) {
                 });
             }
             
-            if(fitaFinal.length === index) {
-                
+            if(fitaFinal.length === index && flagEstado == undefined) {
+                alert('Erro: Não existem mais movimentações possiveis');
+                props.history.push({
+                    pathname: '/log',
+                    state: {
+                        fita,
+                        fitaFinal,
+                        logs
+                    }
+                });
+            } else if(fitaFinal.length === index && flagEstado !== undefined) {
                 props.history.push({
                     pathname: '/log',
                     state: {
@@ -55,6 +65,8 @@ function Run(props) {
                     }
                 });
             }
+
+            
         }, 2000);
     });
 
