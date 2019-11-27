@@ -1,29 +1,21 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-import InputFita from '../../components/input/InputFita';
-
 import './Log.styles.scss';
 
 const Log = (props) => (
-    <div className='log'>
-        <div className='log-header'>
-            <h2>Log de operações da fita</h2>
+    <div className='content'>
+        <h2>Fita inicial</h2>
+        <div className='fita'>
+            {props.location.state.fita.map((f, key) => <div className='div-fita' id={key}>{f}</div>)}
         </div>
-        <div className='log-body'>
-            <label>Fita Inicial</label>
-            {props.location.state.fita.map(f => <InputFita value={f} />)}
+        <h2>Fita final</h2>
+        <div className='fita'>
+            {props.location.state.fitaFinal.map((f, key) => <div className='div-fita' id={key}>{f}</div>)}
         </div>
-        <div className='log-body'>
-            <label>Fita Final</label>
-            {props.location.state.fitaFinal.map(f => <InputFita value={f} />)}
-        </div>
-        <div className='log-body'>
-            <label>Ações</label>
-            <textarea className='' value={props.location.state.log} readOnly />
-        </div>
-        <div className='log-footer'>
-            <Link to ='/'>Voltar</Link>
+        <h2>Ações</h2>
+        <div className='log-body'>            
+            <textarea className='log-area' value={props.location.state.logs} readOnly />
         </div>
     </div>
 );

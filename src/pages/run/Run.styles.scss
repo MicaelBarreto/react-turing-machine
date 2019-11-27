@@ -1,25 +1,31 @@
-.run {
+.content {
     .run-body {
         .log {
+            margin-top: 10%;
 
+            .log-area {
+                height: 80%;
+                width: 70%;
+            }
         }
 
         .fita {
+            margin-top: 15%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-        }
-    }
+            .div-fita {
+                border: 2px solid black;
+                font-size: 16px;
+                transition: transform .2s;
+                padding: 2%;
 
-    .run-footer {
-        width: 100%;
-
-        a {
-            float: right;
-            color: white;
-            text-decoration: none;
-
-            &:hover {
-                background-color: white;
-                color: black;
+                &.highlight {
+                    transform: scale(1.1);
+                    color: #65CCB8;
+                    border-color: #65CCB8;
+                }
             }
         }
     }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-import InputFita from '../../components/input/InputFita';
+import './Run.styles.scss';
 
 
 function Run(props) {
@@ -12,7 +12,7 @@ function Run(props) {
     const [index, setIndex] = useState(0);
     const [fitaFinal, setFitaFinal] = useState(fita);
     const [log, setLog] = useState('');
-    const [logs, setLogs] = useState([]);
+    const [logs, setLogs] = useState('');
 
     useEffect(() => {
         var flag;
@@ -39,7 +39,7 @@ function Run(props) {
                     state: {
                         fita,
                         fitaFinal,
-                        log
+                        logs
                     }
                 });
             }
@@ -51,7 +51,7 @@ function Run(props) {
                     state: {
                         fita,
                         fitaFinal,
-                        log
+                        logs
                     }
                 });
             }
@@ -89,26 +89,23 @@ function Run(props) {
         var log = `Estando no estado ${event.estado} e lendo ${event.valor}: ${event.estado == event.transicao.estado ? 'permaneça no estado ' : 'vá para o estado '}${event.transicao.estado}, altere o valor para ${event.transicao.transicao} e vá para a ${event.transicao.movimento == 'R' ? 'direita' : 'esquerda'}`;
         
         setLog(log);
-        //console.log(typeof log)
-        //console.log(logs);
-        //console.log(typeof logs)
-        //setLogs(logs.unshift(log));
+        setLogs(logs+'\n'+log);
     }
 
     return (
-        <div className='run'>
+        <div className='content'>
             <div className='run-body'>
                 <div className='fita'>
                     {fitaFinal.map((f, key) => {
                         if(index == key){
-                            return <InputFita key={key} value={f} enabled />
+                            return <div className='div-fita highlight' id={key}>{f}</div>
                         } else {
-                            return <InputFita key={key} value={f} />
+                            return <div className='div-fita' id={key}>{f}</div>
                         }
                     })}
                 </div>            
                 <div className='log'>
-                    <textarea id="log" cols="30" rows="10" value={log} readOnly></textarea>
+                    <textarea className="log-area" id="log" cols="30" rows="10" value={log} readOnly></textarea>
                 </div>
             </div>
         </div>

@@ -1,13 +1,47 @@
-.page {
-    height: 100%;
-    width: 100%;
-    text-align: center;
+html {
+    background-color: #65CCB8;
 
-    input, select {
-        border: 1px;
-         &:focus {
-             border-color: aqua;
-             color: aqua;
-         }
+    .page {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+
+        label {
+            //color: #3B945E;
+        }
+
+        input, select {
+            border: 1px solid rgb(155, 155, 155);
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            margin: 2%;
+            //color: #57BA98;
+           background-color: #F2F2F2;
+            &:focus {
+                //background-color: #57BA98;
+                //border: 1px #3B945E solid;
+                //color: #3B945E;
+            }
+        }
+
+        .content {
+            display: block;
+            width: 60%;
+            height: 85%;
+            background-color: #F2F2F2;
+            position:fixed;
+            bottom: 2%;
+            border-radius: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 10%;
+        }
+    }
+
+    button {
+        &:hover {
+            cursor: pointer;
+        }
     }
 }

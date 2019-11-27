@@ -10,13 +10,18 @@
     align-self: flex-end;
     z-index: 2;
 
+    .created-by {
+        margin-right: 1%;
+    }
+
     .link {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
 
         a {
             text-decoration: none;
             outline: none;
+            margin: 2%;
 
             img {
                 width: 100%;

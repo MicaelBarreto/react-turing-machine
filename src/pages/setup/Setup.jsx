@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 import InputSetup from '../../components/setup/InputSetup';
 import Modal from '../../components/modal/Modal';
 
+import './Setup.styles.scss';
+
 function Setup(props) {
     const [estados, setEstados] = useState('');
     const [entrada, setEntrada] = useState('');
@@ -59,7 +61,7 @@ function Setup(props) {
     }
 
     return(
-        <div>
+        <div className='content'>
             <Modal 
                 showModal={showModal} 
                 transicao={transicao} 
@@ -69,43 +71,52 @@ function Setup(props) {
                 entradas={entrada.split(',')} 
             />
             <form onSubmit={event => event.preventDefault()}>
-                <div className='form-control'>
-                    <label htmlFor="estados">Q</label>
-                    <InputSetup value={estados} onChange={e=> setEstados(e.target.value)} placeholder="q0,q1,q2" />
+                <div className='form-top'>
+                    <div className='form-content'>
+                        <div className='form-control'>
+                            <label htmlFor="estados">Q</label>
+                            <InputSetup value={estados} onChange={e=> setEstados(e.target.value)} placeholder="q0,q1,q2" />
+                        </div>
+                        <div className='form-control'>
+                            <label htmlFor="inicial">q0</label>
+                            <InputSetup value={inicial} onChange={e => setInicial(e.target.value)} placeholder="q0" />
+                        </div>
+                        <div className='form-control'>
+                            <label htmlFor="finais">F</label>
+                            <InputSetup value={finais} onChange={e => setFinal(e.target.value)} placeholder="q3,q4" />
+                        </div>
+                    </div>
+                    <div className='form-content'>
+                        <div className='form-control'>
+                            <label htmlFor="entrada">&Sigma;</label>                    
+                            <InputSetup value={entrada} onChange={e => setEntrada(e.target.value)} placeholder="0,1" />
+                        </div>
+                        <div className='form-control'>
+                            <label htmlFor="fita">&Gamma;</label>    
+                            <InputSetup value={fita} onChange={e => setFita(e.target.value)} placeholder="110011" />
+                        </div>
+                        
+                        <div className='form-control'>
+                            <label htmlFor="branco">&empty;</label>
+                            <InputSetup value={branco} onChange={e => setBranco(e.target.value)} placeholder="&empty;" />
+                        </div>
+                    </div>
                 </div>
-                <div className='form-control'>
-                    <label htmlFor="entrada">&Sigma;</label>                    
-                    <InputSetup value={entrada} onChange={e => setEntrada(e.target.value)} placeholder="0,1" />
-                </div>
-                <div className='form-control'>
-                    <label htmlFor="fita">&Gamma;</label>    
-                    <InputSetup value={fita} onChange={e => setFita(e.target.value)} placeholder="110011" />
-                </div>
-                <div className='form-control'>
-                    <label htmlFor="inicial">q0</label>
-                    <InputSetup value={inicial} onChange={e => setInicial(e.target.value)} placeholder="q0" />
-                </div>
-                <div className='form-control'>
-                    <label htmlFor="branco">&empty;</label>
-                    <InputSetup value={branco} onChange={e => setBranco(e.target.value)} placeholder="&empty;" />
-                </div>
-                <div className='form-control'>
-                    <label htmlFor="finais">F</label>
-                    <InputSetup value={finais} onChange={e => setFinal(e.target.value)} placeholder="q3,q4" />
-                </div>
+
                 <div id="div-add">
-                    <label htmlFor="transicao">&delta;</label>
-                    {Object.values(transicoes).map((transicao, key) => (
-                        <InputSetup
-                            key={key}
-                            value={`(${transicao.estado}, ${transicao.valor}) = (${transicao.transicao.estado}, ${transicao.transicao.transicao}, ${transicao.transicao.movimento})`}
-                            placeholder="q3,q4" 
-                            readOnly />
-                    ))}
-                    <button type="button" className="" id="btn-add" onClick={() => handleAdd()}>Adicionar</button>
+                    <div className='transictions'>
+                        {Object.values(transicoes).map((transicao, key) => (
+                            <InputSetup
+                                key={key}
+                                value={`(${transicao.estado}, ${transicao.valor}) = (${transicao.transicao.estado}, ${transicao.transicao.transicao}, ${transicao.transicao.movimento})`}
+                                placeholder="q3,q4" 
+                                readOnly />
+                        ))}
+                    </div>
+                    <button type="button" className="btn-add" id="btn-add" onClick={() => handleAdd()}>&delta;</button>
                 </div>
-                <div>
-                    <button className="" onClick={() => handleRun(finais, estados, entrada, fita)}>Rodar</button>
+                <div className='run-div'>
+                    <button className="run-button" onClick={() => handleRun(finais, estados, entrada, fita)}>Rodar</button>
                 </div>
             </form>
         </div>

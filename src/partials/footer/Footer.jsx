@@ -5,7 +5,7 @@ import linkedin from '../../assets/linkedin.png';
 
 const Footer = () => (
     <div className="footer">
-        <div>
+        <div className='created-by'>
             Criado por Micael Barreto de Moraes
         </div>
         <div className="link">
